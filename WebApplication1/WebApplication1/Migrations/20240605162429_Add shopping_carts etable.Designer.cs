@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Contexts;
 
@@ -10,9 +11,11 @@ using WebApplication1.Contexts;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240605162429_Add shopping_carts etable")]
+    partial class Addshopping_cartsetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,26 +71,9 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(9)")
                         .HasColumnName("phone");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int")
-                        .HasColumnName("FK_role");
-
                     b.HasKey("AccountId");
 
-                    b.HasIndex("RoleId");
-
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = 1,
-                            AccountEmail = "j@k.com",
-                            AccountFirstName = "Jan",
-                            AccountLastName = "Kowalski",
-                            AccountPhone = "999888777",
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categories", b =>
@@ -144,43 +130,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            ProductDepth = 0.0,
-                            ProductHeight = 0.0,
-                            ProductName = "Ściągi na egzamin z APBD",
-                            ProductWeight = 0.0,
-                            ProductWidth = 0.0
-                        });
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("PK_role");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("name");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            RoleName = "User"
-                        });
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Shopping_Carts", b =>
@@ -202,14 +151,6 @@ namespace WebApplication1.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Shopping_Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = 1,
-                            ProductId = 1,
-                            ShoppingCartAmount = 10
-                        });
                 });
 
             modelBuilder.Entity("CategoriesProducts", b =>
@@ -227,49 +168,23 @@ namespace WebApplication1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.Accounts", b =>
-                {
-                    b.HasOne("WebApplication1.Models.Role", "Role")
-                        .WithMany("Accounts")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.Shopping_Carts", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Accounts", "Accounts")
-                        .WithMany("ShoppingCartsEnumerable")
+                    b.HasOne("WebApplication1.Models.Accounts", "accountIdNavigartion")
+                        .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApplication1.Models.Products", "Products")
-                        .WithMany("ShoppingCartsEnumerable")
+                    b.HasOne("WebApplication1.Models.Products", "productIdNavigartion")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Accounts");
+                    b.Navigation("accountIdNavigartion");
 
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Accounts", b =>
-                {
-                    b.Navigation("ShoppingCartsEnumerable");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Products", b =>
-                {
-                    b.Navigation("ShoppingCartsEnumerable");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Role", b =>
-                {
-                    b.Navigation("Accounts");
+                    b.Navigation("productIdNavigartion");
                 });
 #pragma warning restore 612, 618
         }

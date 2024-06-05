@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Contexts;
 
@@ -10,9 +11,11 @@ using WebApplication1.Contexts;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240605165130_Add Roles etable")]
+    partial class AddRolesetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,17 +80,6 @@ namespace WebApplication1.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = 1,
-                            AccountEmail = "j@k.com",
-                            AccountFirstName = "Jan",
-                            AccountLastName = "Kowalski",
-                            AccountPhone = "999888777",
-                            RoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Categories", b =>
@@ -144,17 +136,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("ProductId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductId = 1,
-                            ProductDepth = 0.0,
-                            ProductHeight = 0.0,
-                            ProductName = "Ściągi na egzamin z APBD",
-                            ProductWeight = 0.0,
-                            ProductWidth = 0.0
-                        });
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Role", b =>
@@ -174,13 +155,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            RoleName = "User"
-                        });
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Shopping_Carts", b =>
@@ -202,14 +176,6 @@ namespace WebApplication1.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Shopping_Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = 1,
-                            ProductId = 1,
-                            ShoppingCartAmount = 10
-                        });
                 });
 
             modelBuilder.Entity("CategoriesProducts", b =>

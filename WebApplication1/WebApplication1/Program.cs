@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using WebApplication1;
 using WebApplication1.Contexts;
+using WebApplication1.RequestModels;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,8 @@ builder.Services.AddDbContext<DatabaseContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
@@ -23,5 +28,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("api/accounts/{accountId:int}", async (int accountId, IAccountService service) =>
+{
+    try
+    {
+        return Results.Ok(await service.GetAccountIdAsync(accountId));
+    }
+    catch (NotFoundException e )
+    {
+        return Results.NotFound(e.Message);
+    }
+});
+
+app.MapPost("api/products/", async (AssignProductRequestModel requestModel, IProductService productService) =>
+{
+    try
+    {
+        await productService.assignProduct(requestModel);
+        return Results.NoContent();
+    }
+    catch (Exception e)
+    {
+        return Results.NoContent();
+    }
+});
 
 app.Run();

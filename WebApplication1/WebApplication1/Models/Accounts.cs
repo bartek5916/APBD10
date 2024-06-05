@@ -26,6 +26,11 @@ public class Accounts
     [MaxLength(9)]
     public string? AccountPhone { get; set; }
     
-    public virtual ICollection<Products> Products { get; set; } = new List<Products>();
-    public virtual ICollection<Shopping_Carts> ShoppingCarts { get; set; } = new List<Shopping_Carts>();
+    public virtual IEnumerable<Shopping_Carts> ShoppingCartsEnumerable { get; set; } = new List<Shopping_Carts>();
+    
+    [ForeignKey("Role")]
+    [Column("FK_role")]
+    public int RoleId  { get; set; }
+    
+    public Role Role { get; set; }
 }

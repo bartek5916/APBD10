@@ -27,7 +27,5 @@ public class Products
     public double ProductDepth { get; set; }
     
     public virtual IEnumerable<Categories> Categories { get; set; } = new List<Categories>();
-    
-    public virtual ICollection<Accounts> Accounts { get; set; } = new List<Accounts>();
-    public virtual ICollection<Shopping_Carts> ShoppingCarts { get; set; } = new List<Shopping_Carts>();
+    public virtual IEnumerable<Shopping_Carts> ShoppingCartsEnumerable { get; set; } = new List<Shopping_Carts>();
 }
